@@ -1,0 +1,61 @@
+<div class="row">
+  <div class="col-md-4">
+      <button type="button" class="btn btn-blue" [ngClass]="{'active':isAndActive }" (click)="setActiveCondition('AND')">AND</button>
+      <button type="button" class="btn btn-white" [ngClass]="{'active':isOrActive }" (click)="setActiveCondition('OR')">OR</button>
+  </div>
+  <div class="col-md-8">
+    &nbsp;
+  </div>
+  <div class="col-md-4">
+      <span class="q-connector-missing"  *ngIf="rules.length>0"></span>
+  </div>
+  <div class="col-md-4">
+    <span class="invalid-error" *ngIf="!ruleData.isValidGroup">***At least two rules is required in a group***</span>
+  </div>
+  <div class="col-md-4">
+      <i class="fa fa-plus-circle icon" aria-hidden="true" (click)="onAddRule()"> &nbsp; &nbsp;<span class="icon">Rule</span></i> &nbsp; &nbsp;
+      <i class="fa fa-plus-circle icon" aria-hidden="true" (click)="onAddGroup()"> &nbsp; &nbsp;<span class="icon">Group</span> </i>&nbsp; &nbsp;
+      <i class="fa fa-minus-circle icon" aria-hidden="true" (click)="onDeleteGroup()" [ngClass]="{'link-disbaled':rules.length==0}"> &nbsp; &nbsp;<span class="icon">Delete</span></i>
+  </div>
+  <div class="col-md-12 q-tree-container">
+    <ul class="q-tree">
+        <li *ngFor="let rule of rules;let i=index" class="q-row q-connector q-transition q-rule" [ngClass]="{'isInValid':!rule.isValidRule}">
+            <div class="row" *ngIf="!rule.isGroup">
+                <div class="col-md-4">
+                        <select class="ddl-field" (change)="onFieldSelection($event.target.value,rule)" [(ngModel)]="rule.field">
+                            <!-- <option value="-1" selected>Select</option>
+                            <option value="1">Region</option>
+                            <option value="2">Country</option>
+                            <option value="3">Business</option> -->
+                            <option *ngFor="let field of config.fields" [value]="field.value">{{field.label}}</option>
+                        </select>
+                </div>
+                <div class="col-md-2">
+                    <select class="ddl-operator" (change)="onOperatorSelection($event.target.value,rule)" [(ngModel)]="rule.operator">
+                        <!-- <option value="-1" selected>Select</option>
+                        <option value="1">In</option>
+                        <option value="2">Not In</option>
+                        <option value="3">Equal</option>
+                        <option value="4">Not Equal</option> -->
+                        <option *ngFor="let operator of rule.operators" [value]="operator.value">{{operator.label}}</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <!-- <input type="text" class="ddl-value" [(ngModel)]="rule.value"> -->
+                    <app-data-controls [data]="rule.valueData">
+                    </app-data-controls>
+                </div>
+                <div class="col-md-2">
+                    <i class="fa fa-minus-circle icon" aria-hidden="true" (click)="onDeleteRule(i)">&nbsp;&nbsp;<span class="icon">Delete</span></i>
+                </div>
+            </div>
+            <div class="row" *ngIf="rule.isGroup">
+                <div class="col-md-12">
+                    <app-query-builder [data]="rule" [queryParams]="config">
+                    </app-query-builder>
+                </div>
+            </div>
+        </li>
+    </ul>
+  </div>
+</div>

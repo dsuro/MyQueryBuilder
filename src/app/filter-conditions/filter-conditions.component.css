@@ -1,0 +1,18 @@
+.bottom-border{
+    border-bottom: 1px solid #ccc;
+}
+.top-border{
+    border-top: 1px solid #ccc;
+}
+.center-row{
+    margin-right: 0px !important;
+    margin-left: 0px!important;
+}
+.filter-container{
+    min-height: 400px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+.action-buttons{
+    padding-top: 5px;
+}

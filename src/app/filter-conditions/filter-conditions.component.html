@@ -1,0 +1,17 @@
+<div class="row center-row">
+  <div class="col-md-4 bottom-border">
+    <h4>
+        Filter Conditions
+    </h4>
+  </div>
+  <div class="col-md-8 bottom-border">
+    &nbsp;
+  </div>
+  <div class="col-md-12 filter-container">
+      <app-query-builder [data]="rule" [queryParams]="config"></app-query-builder>
+  </div>
+  <div class="col-md-12 top-border text-center action-buttons">
+      <button type="button" class="btn btn-secondary" (click)="onResetQuery()">Reset</button>&nbsp;&nbsp;
+      <button type="button" class="btn btn-primary" (click)="onApplyQuery()">Apply</button>
+  </div>
+</div>

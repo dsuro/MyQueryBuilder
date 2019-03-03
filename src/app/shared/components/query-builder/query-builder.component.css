@@ -1,0 +1,122 @@
+.btn-white {
+    color: #000000 !important;
+    background-color: #ffffff !important;
+    border-color: #cccccc !important;
+    border-radius: 0 !important;
+    width: 85px;
+}
+.btn-blue{
+    color: #fff !important;
+    background-color: #007bff !important;
+    border-color: #cccccc !important;
+    border-radius: 0 !important;
+    width: 85px;
+}
+.active{
+    border-color:#383d41!important;
+    border-radius: 0 !important;
+    width: 85px;
+}
+.icon{
+    color: #007bff !important;
+    cursor: pointer;
+}
+.q-tree-container {
+    overflow: hidden;
+    transition: ease-in 0.25s max-height;
+}
+.q-tree{
+    list-style: none;
+    margin: 4px 0 2px;
+}
+.q-connector{
+    position: relative;
+}
+.q-row {
+    padding: 6px 8px;
+    margin-top: 6px;
+}
+.q-transition {
+    -webkit-transition: all 0.1s ease-in-out;
+    -moz-transition: all 0.1s ease-in-out;
+    -ms-transition: all 0.1s ease-in-out;
+    -o-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
+}
+.q-rule {
+    border: 1px solid #CCC;
+    background: #f3f1f1;
+}
+.q-connector::before {
+    top: -5px;
+    border-width: 0 0 2px 2px;
+}
+.q-connector::before,.q-connector::after{
+    content: '';
+    left: -12px;
+    border-color: #CCC;
+    border-style: solid;
+    width: 9px;
+    height: calc(50% + 6px);
+    position: absolute;
+}
+.q-connector:not(:last-child)::after {
+    border-width: 0 0 0 2px;
+    top: 50%;
+}
+.q-connector:last-child::after {
+    border: none;
+    top: 50%;
+}
+.q-connector:not(:last-child)::after{
+    content: '';
+    left: -12px;
+    border-color: #CCC;
+    border-style: solid;
+    width: 9px;
+    height: calc(50% + 6px);
+    position: absolute;
+}
+.q-connector::last-child::after{
+    content: '';
+    width: 0px !important;
+}
+.q-connector-missing{
+    position: relative;
+}
+.q-connector-missing::before {
+    top: 1px;
+    border-width: 0 0 2px 2px;
+}
+.q-connector-missing::before{
+    content: '';
+    left: 29px;
+    border-color: #CCC;
+    border-style: solid;
+    width: 0px;
+    height: calc(50% + 25px);
+    position: absolute;
+}
+
+.ddl-field{
+    width: 250px;
+}
+.ddl-operator{
+    width: 150px;
+}
+.ddl-value{
+    width: 250px;
+}
+.link-disbaled{
+    color: currentColor;
+    cursor: not-allowed;
+    opacity: 0.5;
+    text-decoration: none;
+    pointer-events: none;
+}
+.invalid-error{
+    color: red;
+}
+.isInValid{
+    border-color: red !important;
+}
