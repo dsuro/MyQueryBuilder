@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, SimpleChanges, Output, EventEmitter } from '@angular/core';
-import { DataModel, FieldDetailsModel } from '../../models/all-models';
+import { DataModel, FieldDetailsModel, RuleModel } from '../../models/all-models';
 import { ControlTypes } from '../../constants/control-types';
 
 @Component({
@@ -9,8 +9,10 @@ import { ControlTypes } from '../../constants/control-types';
 })
 export class DataControlsComponent implements OnInit {
   @Input() data:FieldDetailsModel;
+  @Input() selectedValue:any;
+  @Input() disabled:Boolean;
   @Output() onItemsSelected:EventEmitter<any>=new EventEmitter<any>();
-  public isTextBox:Boolean=false;
+  public isTextBox:Boolean=true;
   public isSingleSelect:Boolean=false;
   public isMultiSelect:Boolean=false;
   public isAutoComplete:Boolean=false;
@@ -27,9 +29,8 @@ export class DataControlsComponent implements OnInit {
   ngOnInit() {
   }
   ngOnChanges(changes: SimpleChanges): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
     if(changes['data'] && changes['data'].previousValue!=changes['data'].currentValue){
+      
       this.controlType=this.data.controlType;
       if(this.controlType==ControlTypes.SINGLE_SELECT){
         this.isAutoComplete=false;
@@ -44,7 +45,7 @@ export class DataControlsComponent implements OnInit {
         this.isSingleSelect=false;
         this.isTextBox=false;
         this.dropDownData=this.data.values;
-        console.log(this.dropDownData);
+        //console.log(this.dropDownData);
       }
       else if(this.controlType==ControlTypes.AUTO_COMPLETE){
         this.isAutoComplete=true;
@@ -60,8 +61,27 @@ export class DataControlsComponent implements OnInit {
         this.isTextBox=true;
       }
     }
+    if(changes['selectedValue'] && changes['selectedValue'].previousValue!=changes['selectedValue'].currentValue){
+      if(this.controlType==ControlTypes.SINGLE_SELECT){
+       this.selectedItem=this.selectedValue;
+      }
+      else if(this.controlType==ControlTypes.MULTI_SELECT){
+        this.selectedItems=this.selectedValue;
+      }
+    }
+    if(changes['disabled'] && changes['disabled'].previousValue!=changes['disabled'].currentValue){
+     this.isDisabled=this.disabled;
+    }
   }
   onItemChange(event){
-    //this.onItemsSelected.emit(this.selectedItems);
+    //console.log(this.selectedItem);
+    //console.log(this.selectedItems);
+    if(this.controlType==ControlTypes.SINGLE_SELECT){
+       this.onItemsSelected.emit(this.selectedItem);
+     }
+     else if(this.controlType==ControlTypes.MULTI_SELECT){
+        this.onItemsSelected.emit(this.selectedItems);
+     }
+   
   }
 }

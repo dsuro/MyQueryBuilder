@@ -4,8 +4,10 @@ export class RuleModel {
     public rules:Array<RuleModel>;
     public isValidGroup:Boolean;
     public field:any;
+    public enableOperators:Boolean;
     public operator:any;
     public operators:Array<any>;
+    public enableValues:Boolean;
     public value:any;
     public valueData:any;
     public isValidRule:Boolean;
@@ -47,4 +49,11 @@ export class DataModel {
        this.value=value;
        this.label=label;
    }
+}
+export class QueryModel{
+    public condition:String;
+    public rules:Array<QueryModel>;
+    public field:any;
+    public operator:any;
+    public value:any;
 }

@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-md-12" *ngIf="isTextBox">
-    <input type="text" class="txt-value">
+    <input type="text" class="txt-value" [attr.disabled]="isDisabled">
   </div>
   <div class="col-md-12" *ngIf="isSingleSelect">
-    <div>
+    <div class="singleselect-container">
         <p-dropdown 
         appendTo="body"
         [options]="dropDownData" 

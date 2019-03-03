@@ -1,9 +1,9 @@
 .txt-value{
     width: 250px;
 }
-.ddl-value{
-    width: 250px; 
-}
 .multiselect-container{
+    width: 250px;
+}
+.singleselect-container{
     width: 250px;
 }

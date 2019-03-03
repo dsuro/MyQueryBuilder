@@ -22,27 +22,49 @@
         <li *ngFor="let rule of rules;let i=index" class="q-row q-connector q-transition q-rule" [ngClass]="{'isInValid':!rule.isValidRule}">
             <div class="row" *ngIf="!rule.isGroup">
                 <div class="col-md-4">
+                        <!-- 
                         <select class="ddl-field" (change)="onFieldSelection($event.target.value,rule)" [(ngModel)]="rule.field">
-                            <!-- <option value="-1" selected>Select</option>
-                            <option value="1">Region</option>
-                            <option value="2">Country</option>
-                            <option value="3">Business</option> -->
                             <option *ngFor="let field of config.fields" [value]="field.value">{{field.label}}</option>
-                        </select>
+                        </select> 
+                        -->
+                        <div class="ddl-field">
+                            <p-dropdown 
+                            appendTo="body"
+                            [options]="config.fields" 
+                            [(ngModel)]="rule.field"
+                            [filter]="true"
+                            [disabled]="false"
+                            [resetFilterOnHide]="true"
+                            [placeholder]="Select"
+                            (onChange)="onFieldSelection($event.value,rule)">
+                            </p-dropdown>
+                        </div>
                 </div>
                 <div class="col-md-2">
+                    <!-- 
                     <select class="ddl-operator" (change)="onOperatorSelection($event.target.value,rule)" [(ngModel)]="rule.operator">
-                        <!-- <option value="-1" selected>Select</option>
-                        <option value="1">In</option>
-                        <option value="2">Not In</option>
-                        <option value="3">Equal</option>
-                        <option value="4">Not Equal</option> -->
                         <option *ngFor="let operator of rule.operators" [value]="operator.value">{{operator.label}}</option>
-                    </select>
+                    </select> 
+                    -->
+                    <div class="ddl-operator">
+                        <p-dropdown 
+                        appendTo="body"
+                        [options]="rule.operators" 
+                        [(ngModel)]="rule.operator"
+                        [filter]="false"
+                        [disabled]="!rule.enableOperators"
+                        [resetFilterOnHide]="true"
+                        [placeholder]="Select"
+                        (onChange)="onOperatorSelection($event.value,rule)">
+                        </p-dropdown>
+                    </div>
                 </div>
                 <div class="col-md-4">
-                    <!-- <input type="text" class="ddl-value" [(ngModel)]="rule.value"> -->
-                    <app-data-controls [data]="rule.valueData">
+                    <app-data-controls 
+                        [data]="rule.valueData" 
+                        [selectedValue]="rule.value"
+                        [disabled]="!rule.enableValues"
+                        (onItemsSelected)="onValueSelection($event,rule)">
                     </app-data-controls>
                 </div>
                 <div class="col-md-2">

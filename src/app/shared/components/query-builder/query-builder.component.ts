@@ -98,18 +98,30 @@ export class QueryBuilderComponent implements OnInit {
         if(field.length>0){
           rule['operators']=field[0].data.operators;
           rule['valueData']=field[0].data;
+          rule['enableOperators']=true;
         }
         rule['isValidRule']=true;
       }
       else{
         rule['operators']=[];
         rule['valueData']=null;
+        rule['enableOperators']=false;
       }
     }
   }
   onOperatorSelection(value,rule){
     //rule['value']=value;
+    //console.log(value);
     if(value!="-1"){
+      rule['isValidRule']=true;
+      rule['enableValues']=true;
+    }else{
+      rule['enableValues']=false;
+    }
+  }
+  onValueSelection(value,rule){
+    if(rule && value){
+      rule['value']=value;
       rule['isValidRule']=true;
     }
   }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { RuleModel,FieldModel,FieldDetailsModel,OperatorModel,DataModel,QueryParamsModel } from '../models/all-models';
+import { RuleModel,FieldModel,FieldDetailsModel,OperatorModel,DataModel,QueryParamsModel,QueryModel } from '../models/all-models';
 import { ControlTypes } from '../constants/control-types';
 
 @Injectable({
@@ -102,7 +102,7 @@ export class QueryBuilderService {
   getValues(fieldName){
     let operator:DataModel=null;
     let list=[];
-    operator=new DataModel("-1","Select");
+    operator=new DataModel("-3","All");
     list.push(operator);
     if(fieldName=="Region"){
       operator=new DataModel("1","APAC");
@@ -123,7 +123,7 @@ export class QueryBuilderService {
       list.push(operator);
       operator=new DataModel("8","Belgium");
       list.push(operator);
-      operator=new DataModel("9","Algeria");
+      operator=new DataModel("9","Germany");
       list.push(operator);
       operator=new DataModel("10","Australia");
       list.push(operator);
@@ -135,19 +135,19 @@ export class QueryBuilderService {
       list.push(operator);
     }
     else if(fieldName=="City"){
-      operator=new DataModel("11","Ashkasham");
+      operator=new DataModel("11","Kabul");
       list.push(operator);
-      operator=new DataModel("12","Rajbari");
+      operator=new DataModel("12","Dhaka");
       list.push(operator);
       operator=new DataModel("13","Delhi");
       list.push(operator);
-      operator=new DataModel("14","Brusells");
+      operator=new DataModel("14","Brussels");
       list.push(operator);
-      operator=new DataModel("15","Reggane");
+      operator=new DataModel("15","Frankfurt");
       list.push(operator);
-      operator=new DataModel("16","Wellington");
+      operator=new DataModel("16","Sydney");
       list.push(operator);
-      operator=new DataModel("17","Araruama");
+      operator=new DataModel("17","Sao Paulo");
       list.push(operator);
       operator=new DataModel("18","Tampa");
       list.push(operator);
@@ -155,5 +155,79 @@ export class QueryBuilderService {
       list.push(operator);
     }
     return list;
+  }
+  createQuery(rule:RuleModel,config:QueryParamsModel){
+    //console.log(config);
+    let queryModel:QueryModel=new QueryModel();
+    if(rule){
+      if(rule.isGroup){
+        queryModel.condition=rule.condition;
+        queryModel.rules=[];
+        let child:QueryModel=null;
+        for (const item of rule.rules) {
+          child=new QueryModel();
+          child=this.createChildQueryModel(item,config);
+          queryModel.rules.push(child);
+        }
+      }
+      else{
+        queryModel.field=null;
+        queryModel.operator=null;
+        queryModel.value=null;
+      }
+    }
+    return queryModel;
+  }
+  private createChildQueryModel(rule:RuleModel,config:QueryParamsModel){
+    let queryModel:QueryModel=new QueryModel();
+    if(rule){
+      if(rule.isGroup){
+        queryModel.condition=rule.condition;
+        queryModel.rules=[];
+        let child:QueryModel=null;
+        for (const item of rule.rules) {
+          child=new QueryModel();
+          child=this.createChildQueryModel(item,config);
+          queryModel.rules.push(child);
+        }
+       }
+       else
+       {
+        queryModel.field=this.getFieldName(config.fields,rule.field);
+        queryModel.operator=this.getOperatorName(config.fields,rule.field,rule.operator);
+        queryModel.value=rule.value;
+       }
+    }
+    return queryModel;
+  }
+  private getFieldName(fields:Array<any>,value:any){
+    if(fields && value){
+      let obj=fields.filter((item)=>{
+        return item['value']==value;
+      });
+      if(obj.length>0){
+        return obj[0]['label'];
+      }
+    }
+    return null;
+  }
+  private getOperatorName(fields:Array<any>,field,value:any){
+    if(fields && value){
+      let obj=fields.filter((item)=>{
+        return item['value']==field;
+      });
+      if(obj.length>0){
+        let operators=obj[0]['data']['operators'];
+        if(operators.length>0){
+          let op=operators.filter((item)=>{
+            return item['value']==value;
+          });
+          if(op.length>0){
+            return op[0]['label'];
+          }
+        }
+      }
+    }
+    return null;
   }
 }

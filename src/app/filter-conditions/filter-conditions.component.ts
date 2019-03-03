@@ -11,6 +11,7 @@ import { RuleModel,QueryParamsModel } from '../shared/models/all-models';
 export class FilterConditionsComponent implements OnInit {
   rule:RuleModel=null;
   config:QueryParamsModel=null;
+  enableReset:Boolean=false;
   constructor(private queryBuilderService:QueryBuilderService) {
     this.initializeObjects();
    }
@@ -25,18 +26,30 @@ export class FilterConditionsComponent implements OnInit {
     this.rule.value=null;
     this.rule.isValidRule=true;
     this.config=this.queryBuilderService.createQueryParams();
-
+    this.enableReset=false;
   }
   ngOnInit() {
   }
   onApplyQuery(){
     const rule=this.queryBuilderService.checkForRuleValidation(this.rule);
-    console.log(rule);
-   //const rule=_.cloneDeep(this.rule);
-   this.rule=_.cloneDeep(rule);
+    //console.log(rule);
+    //const rule=_.cloneDeep(this.rule);
+    this.rule=_.cloneDeep(rule);
+    this.enableReset=true;
+    let query=this.queryBuilderService.createQuery(this.rule,this.config);
+    console.log(query);
   }
   onResetQuery(){
     this.initializeObjects();
-    console.log(this.rule);
+    //console.log(this.rule);
+  }
+  checkForEnable(){
+    let enable=false;
+    if(this.rule){
+      if(this.rule.rules.length>1){
+        enable=true;
+      }
+    }
+    return enable;
   }
 }
